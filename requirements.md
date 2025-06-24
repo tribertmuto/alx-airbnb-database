@@ -104,5 +104,4 @@ Represents a payment transaction for a booking.
 
 # ER Diagram (Optional for Visual Tools)
 
-https://www.mermaidchart.com/app/projects/5e68dbcc-6191-469e-8502-522d5e389daf/diagrams/c1f95e77-4577-4bc6-9ab9-25a8f3657846/version/v0.1/edit
-
+![alt text](<Editor _ Mermaid Chart-2025-06-24-211446.png>)
