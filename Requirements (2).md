@@ -1,1 +1,0 @@
-![alt text](<Editor _ Mermaid Chart-2025-06-24-211446.png>)
