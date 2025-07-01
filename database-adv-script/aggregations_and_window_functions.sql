@@ -32,3 +32,40 @@ GROUP BY
 ORDER BY
     ub.user_id,
     pb.booking_rank;
+SELECT
+    property_id,
+    COUNT(*) AS total_bookings,
+    RANK() OVER (ORDER BY COUNT(*) DESC) AS booking_rank
+FROM bookings
+GROUP BY property_id;
+-- Total bookings per user
+SELECT user_id, COUNT(*) AS total_bookings
+FROM bookings
+GROUP BY user_id;
+
+-- Rank properties based on total bookings using RANK()
+SELECT
+    property_id,
+    COUNT(*) AS total_bookings,
+    RANK() OVER (ORDER BY COUNT(*) DESC) AS booking_rank
+FROM bookings
+GROUP BY property_id;
+-- Total bookings per user
+SELECT 
+    user_id, 
+    COUNT(*) AS total_bookings
+FROM bookings
+GROUP BY user_id;
+
+-- Rank properties by total bookings using RANK()
+SELECT
+    property_id,
+    total_bookings,
+    RANK() OVER (ORDER BY total_bookings DESC) AS booking_rank
+FROM (
+    SELECT 
+        property_id,
+        COUNT(*) AS total_bookings
+    FROM bookings
+    GROUP BY property_id
+) AS property_counts;
