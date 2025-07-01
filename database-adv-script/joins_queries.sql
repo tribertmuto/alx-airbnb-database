@@ -1,17 +1,4 @@
--- 1. INNER JOIN: Get all bookings and their respective users
-SELECT 
-    b.booking_id,
-    b.property_id,
-    b.booking_date,
-    u.user_id,
-    u.username,
-    u.email
-FROM 
-    Bookings b
-INNER JOIN 
-    Users u ON b.user_id = u.user_id;
-
--- 2. LEFT JOIN: Get all properties and their reviews, including properties with no reviews
+-- 1. LEFT JOIN: Get all properties and their reviews (including properties without reviews)
 SELECT 
     p.property_id,
     p.property_name,
@@ -23,14 +10,37 @@ FROM
 LEFT JOIN 
     Reviews r ON p.property_id = r.property_id;
 
--- 3. FULL OUTER JOIN: Get all users and all bookings, even if no booking or no user match
+
+-- 2. CHECK: List only properties with NO reviews (r.review_id is NULL)
 SELECT 
-    u.user_id,
-    u.username,
-    b.booking_id,
-    b.property_id,
-    b.booking_date
+    p.property_id,
+    p.property_name
 FROM 
-    Users u
-FULL OUTER JOIN 
-    Bookings b ON u.user_id = b.user_id;
+    Properties p
+LEFT JOIN 
+    Reviews r ON p.property_id = r.property_id
+WHERE 
+    r.review_id IS NULL;
+
+
+-- 3. CHECK: Compare total properties vs joined result to verify completeness
+-- Total number of properties
+SELECT COUNT(*) AS total_properties FROM Properties;
+
+-- Total number of unique properties after join
+SELECT COUNT(DISTINCT p.property_id) AS total_properties_in_join
+FROM Properties p
+LEFT JOIN Reviews r ON p.property_id = r.property_id;
+
+
+-- 4. FRIENDLY VIEW: Show all properties and reviews, using IFNULL to mark missing data
+SELECT 
+    p.property_id,
+    p.property_name,
+    IFNULL(r.review_id, 'No Review') AS review_id,
+    IFNULL(r.rating, 'N/A') AS rating,
+    IFNULL(r.comment, 'No Comment') AS comment
+FROM 
+    Properties p
+LEFT JOIN 
+    Reviews r ON p.property_id = r.property_id;
